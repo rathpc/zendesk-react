@@ -1,0 +1,8 @@
+{
+  "name": "zendesk-react",
+  "version": "0.1.0",
+  "description": "A minimal component based implementation to include Zendesk in your React application",
+  "main": "index.js",
+  "author": "Steven Rathbauer <5623579+rathpc@users.noreply.github.com>",
+  "license": "MIT"
+}
