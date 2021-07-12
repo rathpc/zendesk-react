@@ -1,5 +1,7 @@
 .DS_Store
 .vscode
 *.tsbuildinfo
+coverage
+dist
 node_modules
 Thumbs.db

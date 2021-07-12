@@ -1,0 +1,152 @@
+version: 2.1
+
+# COMMANDS ------------------------------------------------
+commands:
+  # Command that builds, compiles and bundles the app
+  build_app:
+    parameters:
+      store_bundle:
+        type: boolean
+        default: true
+    steps:
+      - run:
+          name: Build App
+          command: yarn build
+
+      - when:
+          condition:
+            equal: [true, << parameters.store_bundle >>]
+          steps:
+            - store_artifacts:
+                name: Store Bundled Files
+                path: dist
+
+  publish_app:
+    steps:
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/project/.npmrc
+
+      - run:
+          name: Publish package
+          command: npm publish
+
+  # Command that runs all checks (lint/typechecks/prettier/jest) and stores results
+  run_checks:
+    steps:
+      - run:
+          name: Run ESLint
+          command: yarn lint
+
+      - run:
+          name: Run TS Type Checking
+          command: yarn check-types
+
+      - run:
+          name: Run Prettier
+          command: yarn prettier
+
+      - run:
+          name: Run Jest and Collect Coverage
+          command: yarn test:ci
+
+      - store_test_results:
+          path: coverage
+
+      - store_artifacts:
+          name: Store Code Coverage Results
+          path: coverage
+
+  # Command that checks out the code, installs dependencies and caches source/deps
+  setup:
+    parameters:
+      git_cache_version:
+        type: string
+        default: v1
+      yarn_cache_version:
+        type: string
+        default: v1
+    steps:
+      - restore_cache:
+          keys:
+            - source-<< parameters.git_cache_version >>-{{ .Branch }}-{{ .Revision }}
+            - source-<< parameters.git_cache_version >>-{{ .Branch }}-
+            - source-<< parameters.git_cache_version >>-
+
+      - checkout
+
+      - save_cache:
+          key: source-<< parameters.git_cache_version >>-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - '.git'
+
+      - run:
+          name: Get Node Version
+          command: node --version
+
+      - run:
+          name: Get Yarn Version
+          command: yarn --version
+
+      - restore_cache:
+          name: Restore yarn package cache
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - yarn-packages-<< parameters.yarn_cache_version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-<< parameters.yarn_cache_version >>-{{ .Branch }}-
+            - yarn-packages-<< parameters.yarn_cache_version >>-
+
+      - run:
+          name: Yarn Install
+          command: yarn install --production=false --frozen-lockfile
+
+      - save_cache:
+          name: Save yarn package cache
+          key: yarn-packages-<< parameters.yarn_cache_version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+# EXECUTORS -----------------------------------------------
+executors:
+  default:
+    docker:
+      - image: cimg/node:14.16.1-browsers
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: --max_old_space_size=8192
+    resource_class: medium
+
+# JOBS ----------------------------------------------------
+jobs:
+  branch_build:
+    executor: default
+    steps:
+      - setup
+      - run_checks
+      - build_app:
+          store_bundle: false
+
+  main_build:
+    executor: default
+    steps:
+      - setup
+      - run_checks
+      - build_app
+      - publish_app
+
+# WORKFLOWS -----------------------------------------------
+workflows:
+  version: 2
+  build:
+    jobs:
+      - branch_build:
+          filters:
+            branches:
+              ignore: main
+
+  build_and_publish:
+    jobs:
+      - main_build:
+          filters:
+            branches:
+              only: main

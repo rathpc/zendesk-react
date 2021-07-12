@@ -1,8 +1,73 @@
 {
-  "name": "zendesk-react",
-  "version": "0.1.0",
+  "name": "@rathpc/zendesk-react",
   "description": "A minimal component based implementation to include Zendesk in your React application",
-  "main": "index.js",
-  "author": "Steven Rathbauer <5623579+rathpc@users.noreply.github.com>",
-  "license": "MIT"
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/lib/index.js",
+  "module": "dist/lib-esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "author": "Steven Rathbauer <gh.rathpc@gmail.com>",
+  "bugs": "https://github.com/rathpc/zendesk-react/issues",
+  "homepage": "https://github.com/rathpc/zendesk-react#readme",
+  "repository": {
+    "url": "https://github.com/rathpc/zendesk-react.git",
+    "type": "git"
+  },
+  "keywords": [
+    "react",
+    "zendesk",
+    "hooks",
+    "wrapper",
+    "component"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^26.0.24",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@types/webpack": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^27.0.6",
+    "jest-junit": "^12.2.0",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "yarn build:cjs && yarn build:esm && yarn build:types && webpack",
+    "build:cjs": "tsc --project tsconfig.prod.json",
+    "build:esm": "tsc --project tsconfig.prod.json --module es6 --outDir dist/lib-esm",
+    "build:types": "tsc --project tsconfig.prod.json --declaration --emitDeclarationOnly --declarationDir dist/types",
+    "check-types": "tsc --project tsconfig.prod.json --noEmit",
+    "lint": "eslint './src/**/*'",
+    "lint:fix": "eslint './src/**/*' --fix",
+    "prettier": "prettier --list-different './src/**/*'",
+    "prettier:fix": "prettier --write './src/**/*'",
+    "test": "NODE_ENV=test jest",
+    "test:ci": "NODE_ENV=test node --expose-gc ./node_modules/.bin/jest --collectCoverage --logHeapUsage --runInBand",
+    "test:coverage": "NODE_ENV=test jest --collectCoverage"
+  }
 }
