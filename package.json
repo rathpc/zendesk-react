@@ -2,6 +2,7 @@
   "name": "@rathpc/zendesk-react",
   "description": "A minimal component based implementation to include Zendesk in your React application",
   "version": "0.1.0",
+  "private": false,
   "license": "MIT",
   "main": "dist/lib/index.js",
   "module": "dist/lib-esm/index.js",
@@ -20,6 +21,9 @@
     "wrapper",
     "component"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
