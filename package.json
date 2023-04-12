@@ -1,7 +1,7 @@
 {
   "name": "@rathpc/zendesk-react",
   "description": "A minimal component based implementation to include Zendesk in your React application",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": false,
   "license": "MIT",
   "main": "dist/lib/index.js",
