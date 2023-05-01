@@ -14,7 +14,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['/node_modules/'],
   preset: 'ts-jest/presets/js-with-babel',
-  reporters: ['default', ['jest-junit', { outputDirectory: './coverage', outputName: 'junit.xml' }]],
+  reporters: ['default', 'jest-junit'],
   restoreMocks: true,
   roots: ['<rootDir>/src'],
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect', '@testing-library/jest-dom'],

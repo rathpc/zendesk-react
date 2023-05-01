@@ -49,13 +49,15 @@ commands:
       - run:
           name: Run Jest and Collect Coverage
           command: yarn test:ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
 
       - store_test_results:
-          path: coverage
+          path: ./reports/
 
       - store_artifacts:
           name: Store Code Coverage Results
-          path: coverage
+          path: ./coverage/
 
   # Command that checks out the code, installs dependencies and caches source/deps
   setup:
