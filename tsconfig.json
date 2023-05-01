@@ -13,9 +13,9 @@
     "noImplicitThis": true,
     "outDir": "dist/lib",
     "removeComments": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "suppressImplicitAnyIndexErrors": true,
     "target": "es5",
     "tsBuildInfoFile": ".tsbuildinfo"
   },
