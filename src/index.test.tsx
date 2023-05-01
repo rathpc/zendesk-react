@@ -16,10 +16,6 @@ const mockedConsoleLog = (output: Console['log']) => consoleLogOutput.push(outpu
 const mockedConsoleWarn = (output: Console['warn']) => consoleWarnOutput.push(output);
 
 describe('index.ts', () => {
-  beforeAll(() => {
-    global.window = Object.create(window);
-  });
-
   beforeEach(() => {
     console.warn = mockedConsoleWarn;
     console.log = mockedConsoleLog;

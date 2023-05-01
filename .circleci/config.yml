@@ -110,7 +110,7 @@ commands:
 executors:
   default:
     docker:
-      - image: cimg/node:14.16.1-browsers
+      - image: cimg/node:18.16.0-browsers
     environment:
       NODE_ENV: production
       NODE_OPTIONS: --max_old_space_size=8192
