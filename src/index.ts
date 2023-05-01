@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 
 declare global {
   interface Window {
@@ -26,7 +26,7 @@ interface ZendeskProps {
   zendeskSettings?: Record<string, unknown>;
 }
 
-export const Zendesk: FC<ZendeskProps> = ({ defer, disabled, initCallback, zendeskKey, zendeskSettings = {} }) => {
+export const Zendesk = ({ defer, disabled, initCallback, zendeskKey, zendeskSettings = {} }: ZendeskProps) => {
   useEffect(() => {
     if (disabled || !zendeskKey) return;
 
