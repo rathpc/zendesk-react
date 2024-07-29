@@ -1,7 +1,7 @@
 {
   "name": "@rathpc/zendesk-react",
   "description": "A minimal component based implementation to include Zendesk in your React application",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "private": false,
   "license": "MIT",
   "main": "dist/lib/index.js",
@@ -11,7 +11,7 @@
   "bugs": "https://github.com/rathpc/zendesk-react/issues",
   "homepage": "https://github.com/rathpc/zendesk-react#readme",
   "repository": {
-    "url": "https://github.com/rathpc/zendesk-react.git",
+    "url": "git+https://github.com/rathpc/zendesk-react.git",
     "type": "git"
   },
   "keywords": [
